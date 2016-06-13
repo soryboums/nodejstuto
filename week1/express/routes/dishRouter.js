@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 
 var dishRouter = express.Router();
-dishRouter(bodyParser.json());
+dishRouter.use(bodyParser.json());
 
 dishRouter.route('/')
 .all(function(req, res, next){

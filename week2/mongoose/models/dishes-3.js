@@ -28,7 +28,7 @@ var dishShema = new Schema({
         type: String,
         required: true
     },
-    comment: [commentSchema]
+    comments: [commentSchema]
 }, {
     timestamps: true
 });
