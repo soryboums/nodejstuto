@@ -17,9 +17,9 @@ db.on('open', function(){
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var users = require('./routes/dishRouter');
-var users = require('./routes/leaderRouter');
-var users = require('./routes/promoRouter');
+var dishRouter = require('./routes/dishRouter');
+var leaderRouter = require('./routes/leaderRouter');
+var promoRouter = require('./routes/promoRouter');
 
 var app = express();
 
