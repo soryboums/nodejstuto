@@ -39,7 +39,7 @@ dishRouter.route('/:dishId')
 
 .get(function(req, res, next){
     // res.end('Will send details of the dish: '+req.params.dishId+' to you!');
-    Dishes.findById(req.body.dishId, function(err, dish){
+    Dishes.findById(req.params.dishId, function(err, dish){
         if (err) throw err;
         res.json(dish);
     });
@@ -48,7 +48,7 @@ dishRouter.route('/:dishId')
 .put(function(req, res, next){
     // res.write('Updating the dish: '+req.params.dishId+'\n');
     // res.end('Will update the dish: '+req.body.name+' with details: '+req.body.description);
-    Dishes.findByIdAndUpdate(req.body.dishId, {
+    Dishes.findByIdAndUpdate(req.params.dishId, {
         $set: req.body
     }, {
         new: true
@@ -60,7 +60,7 @@ dishRouter.route('/:dishId')
 
 .delete(function(req, res, next){
     // res.end('Deleting dish: '+req.params.dishId);
-    Dishes.findByIdAndRemove(req.body.dishId, function(err, resp){
+    Dishes.findByIdAndRemove(req.params.dishId, function(err, resp){
         if (err) throw err;
         res.json(resp);
     });
@@ -73,7 +73,7 @@ dishRouter.route('/:dishId/comments')
         res.json(dish.comments);
     });
 })
-.put(function(req, res, next){
+.post(function(req, res, next){
     Dishes.findById(req.params.dishId, function(err, dish){
         if (err) throw err;
         dish.comments.push(req.body);

@@ -20,6 +20,8 @@ var commentSchema = new Schema({
         type: String,
         required: true
     }
+}, {
+    timestamps: true
 });
 
 // Create the Schema
