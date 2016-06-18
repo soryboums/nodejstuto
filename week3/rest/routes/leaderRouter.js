@@ -1,45 +1,63 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
+var Learder = require('../models/leadership');
+
 var leaderRouter = express.Router();
 leaderRouter.use(bodyParser.json());
 
 leaderRouter.route('/')
-.all(function(req, res, next){
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    next();
-})
+
 
 .get(function(req, res, next){
-    res.end('Will send all leaders to you!');
+    Learder.find({}, function(err, leaders){
+        if (err) throw err;
+        res.json(leaders);
+    });
 })
 
 .post(function(req, res, next){
-    console.log(req.body);
-    res.end('Will add the leaders: '+ req.body.name+' with details: '+req.body.description);
+    Learder.create(req.body, function(err, leader){
+        if (err) throw err;
+        var id = leader._id;
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end('Added a new leader with id: '+id);
+        // res.json(leader);
+    });
 })
 
 .delete(function(req, res, next){
-    res.end('Will Delete all leaders');
+    Learder.remove({}, function(err, resp){
+        if (err) throw err;
+        res.json(resp);
+    });
 })
 
 leaderRouter.route('/:leaderId')
-.all(function(req, res, next){
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    next();
-})
 
 .get(function(req, res, next){
-    res.end('Will send details of the leader: '+req.params.leaderId+' to you!');
+    Learder.findById(req.params.leaderId, function(err, leader){
+        if (err) throw err;
+        res.json(leader);
+    });
 })
 
 .put(function(req, res, next){
-    res.write('Updating the leader: '+req.params.leaderId+'\n');
-    res.end('Will update the leader: '+req.body.name+' with details: '+req.body.description);
+    Learder.findByIdAndUpdate(req.params.leaderId, {
+        $set: req.body
+    }, {
+        new: true
+    }, function(err, leader){
+        if (err) throw err;
+        res.json(leader);
+    });
 })
 
 .delete(function(req, res, next){
-    res.end('Deleting leader: '+req.params.leaderId);
+    Learder.findByIdAndRemove(req.params.leaderId, function(err, resp){
+        if (err) throw err;
+        res.json(resp);
+    });
 });
 
 module.exports = leaderRouter;
