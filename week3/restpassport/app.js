@@ -40,7 +40,7 @@ app.use(cookieParser());
 // Passport config
 var User = require('./models/user');
 app.use(passport.initialize());
-passport.use(new LocalStrategy(User.autheticate()));
+passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -66,6 +66,8 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
+    console.log('App');
+    console.log(err);
     res.json({
       message: err.message,
       error: err
